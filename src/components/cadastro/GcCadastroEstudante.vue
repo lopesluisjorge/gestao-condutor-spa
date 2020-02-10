@@ -4,7 +4,7 @@
     <form @submit.prevent="salvar">
       <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" id="nome" class="form-control" :v-model="nome" />
+        <input type="text" id="nome" class="form-control" required :v-model="nome" />
       </div>
       <div class="form-group">
         <label>Sexo</label>
@@ -35,24 +35,19 @@
       </div>
       <div class="form-group">
         <label for="cpf">CPF</label>
-        <input type="text" class="form-control" :v-model="cpf" />
+        <input type="text" class="form-control" required :v-model="cpf" />
       </div>
 
       <div class="form-group">
         <label for="endereco">Enderereço</label>
-        <input type="text" id="endereco" class="form-control" />
+        <input type="text" id="endereco" class="form-control" required :v-model="endereco" />
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for>Telefone Principal</label>
-          <input type="text" class="form-control" :v-model="telefone1" />
-        </div>
-        <div class="form-group col-md-6">
-          <label for>Telefone Secundário</label>
-          <input type="text" class="form-control" :v-model="telefone1" />
-        </div>
+      <div class="form-group">
+        <label for="telefone">Telefone Principal</label>
+        <input type="text" id="telefone" class="form-control" required :v-model="telefone" />
       </div>
+
       <div class="form-group">
         <label for="curso">Curso</label>
         <select class="form-control" id="curso" v-model="cursoSelecionado">
@@ -82,12 +77,40 @@ export default {
       sexo: "",
       cpf: "",
       endereco: "",
-      telefone1: "",
-      telefone2: "",
+      telefone: "",
       cursoSelecionado: "",
-      tipoCondutor: "ESTUDANTE",
+      tipoCondutor: "ALUNO",
       cursos: []
     };
+  },
+  methods: {
+    async salvar() {
+      const condutor = {
+        nome: this.nome,
+        sexo: this.sexo,
+        cpf: this.cpf,
+        endereco: this.endereco,
+        telefone: this.telefone,
+        curso: this.cursoSelecionado,
+        tipoCondutor: this.tipoCondutor
+      };
+
+      const url = "http://127.0.0.1:8080/condutor";
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: JSON.stringify(condutor)
+      }).then(data => {
+        if (data.status === 201) this.$router.push("/");
+      });
+
+      console.log(response);
+
+      //axios.post("http://127.0.0.1:8080/condutor", condutor).catch(e => console.log(e));
+    }
   }
 };
 </script>
