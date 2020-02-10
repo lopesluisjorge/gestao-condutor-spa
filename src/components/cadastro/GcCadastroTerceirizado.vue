@@ -43,28 +43,23 @@
         <input type="text" id="endereco" class="form-control" />
       </div>
 
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for>Telefone Principal</label>
-          <input type="text" class="form-control" :v-model="telefone1" />
-        </div>
-        <div class="form-group col-md-6">
-          <label for>Telefone Secundário</label>
-          <input type="text" class="form-control" :v-model="telefone1" />
-        </div>
+      <div class="form-group">
+        <label for="telefone">Telefone Principal</label>
+        <input type="text" id="telefone" class="form-control" required :v-model="telefone" />
+      </div>
+
+      <div class="form-group">
+        <label for>Empresa</label>
+        <input type="text" class="form-control" :v-model="empresa" />
       </div>
       <div class="form-group">
-          <label for>Empresa</label>
-          <input type="text" class="form-control" :v-model="empresa" />
-        </div>
-      <div class="form-group">
-          <label for="setor">Setor</label>
-          <select class="form-control" id="setor" v-model="setorSelecionado">
-            <option v-for="setor in setores" :key="setor.id">
-              <span>{{ setor.nome }}</span>
-            </option>
-          </select>
-        </div>
+        <label for="setor">Setor</label>
+        <select class="form-control" id="setor" v-model="setorSelecionado">
+          <option v-for="setor in setores" :key="setor.id">
+            <span>{{ setor.nome }}</span>
+          </option>
+        </select>
+      </div>
       <div class="form-group">
         <button class="btn btn-success">Cadastrar</button>
       </div>
@@ -92,8 +87,24 @@ export default {
       empresa: "",
       setorSelecionado: "",
       setores: [],
-      tipoCondutor: "TERCEIRIZADO",
+      tipoCondutor: "TERCEIRIZADO"
     };
+  },
+  methods: {
+    async salvar() {
+      const condutor = {
+        nome: this.nome,
+        sexo: this.sexo,
+        cpf: this.cpf,
+        endereco: this.endereco,
+        telefone: this.telefone,
+        setorSelecionado: this.setorSelecionado,
+        empresa: this.empresa,
+        tipoCondutor: this.tipoCondutor
+      };
+
+      await axios.post("http://127.0.0.1:8080/condutor", condutor);
+    }
   }
 };
 </script>

@@ -2,7 +2,7 @@
   <div >
     <header>
       <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Fixed navbar</a>
+        <router-link class="navbar-brand" to="/">Gestão de Condutor</router-link>
         <button
           class="navbar-toggler"
           type="button"
